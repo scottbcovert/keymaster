@@ -46,7 +46,7 @@ let // The login URL for the OAuth process
 
     // Whether or not to use a CORS proxy. Defaults to false if app running in Cordova, in a VF page,
     // or using the Salesforce console. Can be overriden in init()
-    useProxy = (window.cordova || window.SfdcApp || window.sforce) ? false : true;
+    useProxy = (window["cordova"] || window["SfdcApp"] || window["sforce"]) ? false : true;
 
 /*
  * Determines the request base URL.
@@ -99,7 +99,7 @@ let refreshTokenWithPlugin = () => {
         oauthPlugin.authenticate(
             function (response) {
                 oauth.access_token = response.accessToken;
-                tokenStore.forceOAuth = JSON.stringify(oauth);
+                tokenStore["forceOAuth"] = JSON.stringify(oauth);
                 resolve();
             },
             function () {
@@ -137,7 +137,7 @@ let refreshTokenWithHTTPRequest = () => new Promise((resolve, reject) => {
                 console.log('Token refreshed');
                 let res = JSON.parse(xhr.responseText);
                 oauth.access_token = res.access_token;
-                tokenStore.forceOAuth = JSON.stringify(oauth);
+                tokenStore["forceOAuth"] = JSON.stringify(oauth);
                 resolve();
             } else {
                 console.log('Error while trying to refresh token: ' + xhr.responseText);
@@ -156,7 +156,7 @@ let refreshTokenWithHTTPRequest = () => new Promise((resolve, reject) => {
 
 let refreshToken = () => {
     if (oauthPlugin) {
-        return refreshTokenWithPlugin(oauthPlugin);
+        return refreshTokenWithPlugin();
     } else {
         return refreshTokenWithHTTPRequest();
     }
@@ -215,7 +215,7 @@ export let init = params => {
  */
 export let discardToken = () => {
     delete oauth.access_token;
-    tokenStore.forceOAuth = JSON.stringify(oauth);
+    tokenStore["forceOAuth"] = JSON.stringify(oauth);
 };
 
 /**
@@ -223,7 +223,7 @@ export let discardToken = () => {
  * If running in Cordova container, it happens using the Mobile SDK 2.3+ Oauth Plugin
  */
 export let login = () => {
-    if (window.cordova) {
+    if (window["cordova"]) {
         return loginWithPlugin();
     } else {
         return loginWithBrowser();
@@ -232,7 +232,7 @@ export let login = () => {
 
 export let loginWithPlugin = () => new Promise((resolve, reject) => {
     document.addEventListener("deviceready", () => {
-        oauthPlugin = cordova.require("com.salesforce.plugin.oauth");
+        oauthPlugin = window["cordova"].require("com.salesforce.plugin.oauth");
         if (!oauthPlugin) {
             console.error('Salesforce Mobile SDK OAuth plugin not available');
             reject('Salesforce Mobile SDK OAuth plugin not available');
@@ -266,7 +266,7 @@ export let loginWithBrowser = () => new Promise((resolve, reject) => {
     document.addEventListener("oauthCallback", (event) => {
 
         // Parse the OAuth data received from Salesforce
-        let url = event.detail,
+        let url = event["detail"],
             queryString,
             obj;
 
@@ -274,7 +274,7 @@ export let loginWithBrowser = () => new Promise((resolve, reject) => {
             queryString = url.substr(url.indexOf('#') + 1);
             obj = parseQueryString(queryString);
             oauth = obj;
-            tokenStore.forceOAuth = JSON.stringify(oauth);
+            tokenStore["forceOAuth"] = JSON.stringify(oauth);
             resolve();
         } else if (url.indexOf("error=") > 0) {
             queryString = decodeURIComponent(url.substring(url.indexOf('?') + 1));
