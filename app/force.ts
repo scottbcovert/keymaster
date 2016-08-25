@@ -246,6 +246,8 @@ export let loginWithPlugin = () => new Promise((resolve, reject) => {
                     instanceURL: creds.instanceUrl,
                     refreshToken: creds.refreshToken
                 });
+                // Register for Push Notifications
+                registerPushNofications();                
                 resolve();
             },
             function (error) {
@@ -289,6 +291,11 @@ export let loginWithBrowser = () => new Promise((resolve, reject) => {
     window.open(loginWindowURL, '_blank', 'location=no');
 
 });
+
+/**
+ * Registers the mobile device for push notifications
+ */
+export let registerPushNofications: () => void = () => { window["cordova"].require("com.salesforce.util.push").registerPushNotificationHandler((message) => {}, (error) => {});};
 
 /**
  * Gets the user's ID (if logged in)

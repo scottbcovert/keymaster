@@ -1,0 +1,14 @@
+{
+  "remoteAccessConsumerKey": "FakeConsumerKey",
+  "oauthRedirectURI": "sfdc:///mobilesdk/detect/oauth/done",
+  "oauthScopes": [
+    "api",
+    "refresh_token",
+    "web"
+  ],
+  "isLocal": true,
+  "startPage": "index.html",
+  "errorPage": "error.html",
+  "shouldAuthenticate": true,
+  "attemptOfflineLoad": false
+}
