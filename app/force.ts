@@ -247,7 +247,7 @@ export let loginWithPlugin = () => new Promise((resolve, reject) => {
                     refreshToken: creds.refreshToken
                 });
                 // Register for Push Notifications
-                registerPushNofications();                
+                registerPushNotifications();                
                 resolve();
             },
             function (error) {
@@ -295,7 +295,7 @@ export let loginWithBrowser = () => new Promise((resolve, reject) => {
 /**
  * Registers the mobile device for push notifications
  */
-export let registerPushNofications: () => void = () => { window["cordova"].require("com.salesforce.util.push").registerPushNotificationHandler((message) => {}, (error) => {});};
+export let registerPushNotifications: () => void = () => { window["cordova"].require("com.salesforce.util.push").registerPushNotificationHandler((message) => {}, (error) => {});};
 
 /**
  * Gets the user's ID (if logged in)
