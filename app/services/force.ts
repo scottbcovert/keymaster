@@ -324,8 +324,6 @@ export let isAuthenticated = () => (oauth && oauth.access_token) ? true : false;
  */
 export let request = obj => new Promise((resolve, reject) => {
 
-    console.log(oauth);
-
     if (!oauth || (!oauth.access_token && !oauth.refresh_token)) {
         reject('No access token. Please login and try again.');
         return;

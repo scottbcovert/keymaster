@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>History</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshHistory($event)">
+      <ion-refresher-content
+        pullingText="Pull to refresh">
+      </ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-list-header>Past Lock Events</ion-list-header>
+    <ion-item *ngFor="let pastLockEvent of pastLockEvents">
+      <h2>{{pastLockEvent.NewState__c}}</h2>
+      <p>Changed By: {{pastLockEvent.StateChangedBy__c}}</p>
+      <p>{{formatDateString(pastLockEvent.CreatedDate)}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
