@@ -5,7 +5,12 @@
 </ion-header>
 
 <ion-content padding class="home">
-  <h2>What is thy bidding, KeyMaster?</h2>
+  <ion-refresher (ionRefresh)="refreshDoorState($event)">
+      <ion-refresher-content
+        pullingText="Pull to refresh">
+      </ion-refresher-content>
+  </ion-refresher>
+  <h2>Hello, KeyMaster</h2>
   <p>
     Door is currently {{doorState}}.
   </p>
