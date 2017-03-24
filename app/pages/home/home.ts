@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
+import * as force from '../../services/force';
 import * as lockEventService from '../../services/LockEventService'
 
 @Component({
@@ -11,24 +12,51 @@ export class HomePage {
   passphrase: string;
 
   constructor(private navCtrl: NavController) {
-    lockEventService.findRecords(1)
-      .then((result: any) => {this.doorState = result.records[0].NewState__c;})
-      .catch((error: string) => {console.log(error);});
-    lockEventService.findRunningUserAccessToken()
-      .then((result: any) => {this.passphrase = result.records[0].Passphrase__c;})
-      .catch((error: string) => {console.log(error);});
+    // Initialize ForceJS
+    force.init({
+      appId: 'FakeConsumerKey',
+      apiVersion: 'v39.0',
+      oauthCallbackURL: 'http://localhost:8100/home'
+    });
+    // Log into Salesforce
+    force.login().then(() => {
+      lockEventService.findRunningUserAccessToken()
+        .then((result: any) => {
+          this.passphrase = result.records[0].Passphrase__c;
+          this.doorState = 'unknown';
+          this.refreshDoorState(null);
+        })
+        .catch((error: string) => {console.log(error);});
+    });    
+  }
+
+  refreshDoorState(event) {    
+    lockEventService.getDoorState(this.passphrase)
+        .then((result: any) => {this.doorState = (result.data) ? result.data.doorState : 'unknown'; this.stopRefresh(event);})
+        .catch((error: string) => {console.log(error); this.stopRefresh(event);});
+  }
+
+  stopRefresh(event) {
+    if(event)
+    {
+      event.complete();
+    }
   }
 
   setLockState(newState: number) {
   	if (newState === 0)
   	{
-  		lockEventService.toggleLock('Locked',this.passphrase);
-  		this.doorState = 'locked';
+  		this.doorState = 'locking';
+      lockEventService.toggleLock('Locked',this.passphrase)
+        .then(() => {this.refreshDoorState(null);})
+        .catch((error: string) => {console.log(error);});
   	}
   	else if (newState === 1)
   	{
-  		lockEventService.toggleLock('Unlocked',this.passphrase);
-  		this.doorState = 'unlocked';
+  		this.doorState = 'unlocking';
+      lockEventService.toggleLock('Unlocked',this.passphrase)
+        .then(() => {this.refreshDoorState(null);})
+        .catch((error: string) => {console.log(error);});
   	}
   }
 }
