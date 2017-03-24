@@ -17,3 +17,12 @@ export let toggleLock = (newState: string, passphrase: string) => force.request(
         	passphrase: passphrase
         }
     });
+
+export let getDoorState = (passphrase: string) => force.request({
+		method: 'GET',
+		contentType: 'application/json',
+		path: '/services/apexrest/v' + keyMasterVersion + '/keymaster',
+		params: {
+			passphrase: passphrase
+		}
+	});
