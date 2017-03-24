@@ -179,6 +179,7 @@ let joinPaths = (path1, path2) => {
  *  accessToken (optional)
  *  instanceURL (optional)
  *  refreshToken (optional)
+ *  userId (optional)
  */
 export let init = params => {
 
@@ -203,6 +204,11 @@ export let init = params => {
         if (params.refreshToken) {
             if (!oauth) oauth = {};
             oauth.refresh_token = params.refreshToken;
+        }
+
+        if (params.userId) {
+            if (!oauth) oauth = {};
+            oauth.userId = params.userId;
         }
     }
 
@@ -244,7 +250,8 @@ export let loginWithPlugin = () => new Promise((resolve, reject) => {
                 init({
                     accessToken: creds.accessToken,
                     instanceURL: creds.instanceUrl,
-                    refreshToken: creds.refreshToken
+                    refreshToken: creds.refreshToken,
+                    userId: creds.userId
                 });
                 // Register for Push Notifications
                 registerPushNotifications();                
@@ -301,7 +308,7 @@ export let registerPushNotifications: () => void = () => { window["cordova"].req
  * Gets the user's ID (if logged in)
  * @returns {string} | undefined
  */
-export let getUserId = () => (typeof(oauth) !== 'undefined') ? oauth.id.split('/').pop() : undefined;
+export let getUserId = () => (typeof(oauth) !== 'undefined') ? oauth.userId : undefined;
 
 /**
  * Get the OAuth data returned by the Salesforce login process
