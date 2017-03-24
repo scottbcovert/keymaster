@@ -8,26 +8,26 @@ import * as lockEventService from '../../services/LockEventService'
 export class HomePage {
 
   doorState: string;
-  userName: string;
+  passphrase: string;
 
   constructor(private navCtrl: NavController) {
     lockEventService.findRecords(1)
       .then((result: any) => {this.doorState = result.records[0].NewState__c;})
       .catch((error: string) => {console.log(error);});
-    lockEventService.findRunningUser()
-      .then((result: any) => {this.userName = result.records[0].Name;})
+    lockEventService.findRunningUserAccessToken()
+      .then((result: any) => {this.passphrase = result.records[0].Passphrase__c;})
       .catch((error: string) => {console.log(error);});
   }
 
   setLockState(newState: number) {
   	if (newState === 0)
   	{
-  		lockEventService.create('Locked',this.userName);
+  		lockEventService.toggleLock('Locked',this.passphrase);
   		this.doorState = 'locked';
   	}
   	else if (newState === 1)
   	{
-  		lockEventService.create('Unlocked',this.userName);
+  		lockEventService.toggleLock('Unlocked',this.passphrase);
   		this.doorState = 'unlocked';
   	}
   }
