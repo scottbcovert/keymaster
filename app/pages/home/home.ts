@@ -15,7 +15,7 @@ export class HomePage {
     // Initialize ForceJS
     force.init({
       appId: 'FakeConsumerKey',
-      apiVersion: 'v39.0',
+      apiVersion: 'v40.0',
       oauthCallbackURL: 'http://localhost:8100/home'
     });
     // Log into Salesforce
@@ -27,10 +27,10 @@ export class HomePage {
           this.refreshDoorState(null);
         })
         .catch((error: string) => {console.log(error);});
-    });    
+    });
   }
 
-  refreshDoorState(event) {    
+  refreshDoorState(event) {
     lockEventService.getDoorState(this.passphrase)
         .then((result: any) => {this.doorState = (result.data) ? result.data.doorState : 'unknown'; this.stopRefresh(event);})
         .catch((error: string) => {console.log(error); this.stopRefresh(event);});
