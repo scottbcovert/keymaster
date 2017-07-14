@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import * as lockEventService from '../../services/LockEventService'
+import {LockProvider} from '../../providers/lock-provider/lock-provider';
 
 @Component({
   templateUrl: 'build/pages/history/history.html'
@@ -8,25 +8,20 @@ import * as lockEventService from '../../services/LockEventService'
 export class HistoryPage {
 
   pastLockEvents: any;
-  
-  constructor(private navCtrl: NavController) {
-  	this.refreshHistory(null);
+
+  constructor(private navCtrl: NavController, private lockProvider: LockProvider) {
+  	this.lockProvider.initialize()
+    .then(() => {this.refreshHistory(null);})
+    .catch((error: string) => {console.log(error);});
   }
 
-  refreshHistory(event) {
-  	lockEventService.findRecords(20)
-  		.then((result: any) => {this.pastLockEvents = result.records; this.stopRefresh(event);})
-  		.catch((error: string) => {console.log(error); this.stopRefresh(event);});  		
+  refreshHistory(event: any) {
+  	this.lockProvider.findRecords(20, event)
+  		.then((result: any) => {this.pastLockEvents = this.lockProvider.pastLockEvents;})
+  		.catch((error: string) => {console.log(error);});
   }
 
-  stopRefresh(event) {
-  	if(event)
-  	{
-  		event.complete();
-  	}
-  }
-
-  formatDateString(s) {
+  formatDateString(s: any) {
   	var a = s.split(/[^0-9]/);
   	var d = new Date(a[0],a[1]-1,a[2],a[3],a[4],a[5]);
   	var offset = new Date().getTimezoneOffset();
