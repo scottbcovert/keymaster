@@ -68,4 +68,5 @@
     <plugin name="cordova-plugin-whitelist" spec="~1.2.2" />
     <plugin name="com.salesforce" spec="https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin" />
     <plugin name="cordova-plugin-wkwebviewxhrfix" spec="https://github.com/TheMattRay/cordova-plugin-wkwebviewxhrfix" />
+    <plugin name="cordova-plugin-geofence" spec="https://github.com/compelling/cordova-plugin-geofence" />    
 </widget>

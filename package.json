@@ -9,15 +9,17 @@
     "@angular/platform-browser": "^4.4.4",
     "@angular/platform-browser-dynamic": "^4.4.4",
     "@ionic-native/core": "4.3.0",
-    "@ionic-native/ibeacon": "^4.3.0",
     "SalesforceMobileSDK-CordovaPlugin": "git+https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin.git",
     "com.salesforce": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin",
     "cordova-ios": "^4.4.0",
+    "cordova-plugin-add-swift-support": "^1.6.0",
+    "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.0.1",
-    "cordova-plugin-ibeacon": "^3.5.2",
+    "cordova-plugin-geofence": "git+https://github.com/compelling/cordova-plugin-geofence.git",
     "cordova-plugin-whitelist": "~1.2.2",
     "cordova-plugin-wkwebview-engine": "git+https://github.com/apache/cordova-plugin-wkwebview-engine.git",
     "cordova-plugin-wkwebviewxhrfix": "git+https://github.com/TheMattRay/cordova-plugin-wkwebviewxhrfix.git",
+    "es6-promise-plugin": "^4.1.1",
     "es6-shim": "0.35.1",
     "eslint-plugin-html": "^2.0.3",
     "ionic-angular": "^3.7.1",
@@ -54,7 +56,8 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "com.salesforce": {},
-      "cordova-plugin-wkwebviewxhrfix": {}
+      "cordova-plugin-wkwebviewxhrfix": {},
+      "cordova-plugin-geofence": {}
     },
     "platforms": [
       "ios"
