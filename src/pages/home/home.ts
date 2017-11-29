@@ -16,15 +16,17 @@ export class HomePage {
   constructor(private navCtrl: NavController, private platform: Platform, private lockProvider: LockProvider) {
     this.platform.ready().then(() => {
       this.lockProvider.initialize()
-      .then(() => {this.doorState = this.lockProvider.doorState;})
+      .then(() => {
+        this.doorState = this.lockProvider.doorState;
+        // Ensure onTransitionReceived callback is re-injected on app launch, even prior to initialization https://github.com/cowbell/cordova-plugin-geofence/issues/128
+        geofence.onTransitionReceived = (resp) => {
+          this.setLockState(1);
+        };
+        geofence.initialize()
+        .then(() => {this.prepareGeofence();})
+        .catch((error: string) => {console.log(error);});      
+      })
       .catch((error: string) => {console.log(error);});
-      // Ensure onTransitionReceived callback is re-injected on app launch, even prior to initialization https://github.com/cowbell/cordova-plugin-geofence/issues/128
-      geofence.onTransitionReceived = (resp) => {
-        this.setLockState(0);
-      };
-      geofence.initialize()
-      .then(() => {this.prepareGeofence();})
-      .catch((error: string) => {console.log(error);});      
     });    
   }
 
@@ -33,7 +35,7 @@ export class HomePage {
     .then((watchedGeofencesJSON: string) => {
       let watchedGeofences = JSON.parse(watchedGeofencesJSON);
       if (watchedGeofences && watchedGeofences.length > 0) {
-        watchedGeofences = watchedGeofences.concat(watchedGeofences);        
+        watchedGeofences = watchedGeofences.concat(watchedGeofences);
         return;
       }      
       let newFence = {
@@ -45,7 +47,7 @@ export class HomePage {
         notification: {
             id:             (new Date().getTime()),
             title:          'Welcome Home!',
-            text:           'Allow me to get the door for you...',
+            text:           'Welcome home, I\'ll get the door for you',
             openAppOnClick: false
         }
       }
@@ -64,7 +66,7 @@ export class HomePage {
 
   setLockState(newState: number) {
     this.doorState = (newState) ? 'unlocking' : 'locking';
-  	this.lockProvider.setLockState(newState)
+    this.lockProvider.setLockState(newState)
     .then(() => {this.refreshDoorState(null);})
     .catch((error: string) => {console.log(error);});
   }
