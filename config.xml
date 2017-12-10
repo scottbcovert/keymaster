@@ -64,9 +64,9 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <allow-navigation href="*" />
-    <engine name="ios" spec="^4.4.0" />
-    <plugin name="cordova-plugin-whitelist" spec="~1.2.2" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.2.0" />
+    <plugin name="cordova-plugin-wkwebviewxhrfix" spec="git+https://github.com/TheMattRay/cordova-plugin-wkwebviewxhrfix.git" />
+    <plugin name="cordova-plugin-geofence" spec="https://github.com/scottbcovert/cordova-plugin-geofence" />
+    <engine name="ios" spec="~4.4.0" />
     <plugin name="com.salesforce" spec="https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin" />
-    <plugin name="cordova-plugin-wkwebviewxhrfix" spec="https://github.com/TheMattRay/cordova-plugin-wkwebviewxhrfix" />
-    <plugin name="cordova-plugin-geofence" spec="https://github.com/compelling/cordova-plugin-geofence" />    
 </widget>

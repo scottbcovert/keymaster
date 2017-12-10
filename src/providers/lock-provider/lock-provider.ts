@@ -26,7 +26,7 @@ export class LockProvider {
         // Initialize ForceJS
         force.init({
           appId: 'FakeConsumerKey',
-          apiVersion: 'v40.0',
+          apiVersion: 'v41.0',
           oauthCallbackURL: 'http://localhost:8100/home'
         });
 
@@ -61,6 +61,18 @@ export class LockProvider {
         passphrase: this.passphrase
       }
     });
+  }
+
+  getRemoteServerURL(): any {
+    return force.getOAuthResult().instance_url + '/services/apexrest/v' + this.keyMasterVersion + '/keymaster';
+  }
+
+  getUnlockPostString(): any {
+    return 'newState=unlocked&passphrase=' + this.passphrase;
+  }
+
+  getAccessToken(): any {
+     return force.getOAuthResult().access_token;
   }
 
   findRunningUserAccessToken(): any {

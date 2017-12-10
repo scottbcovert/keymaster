@@ -18,31 +18,28 @@ export class HomePage {
       this.lockProvider.initialize()
       .then(() => {
         this.doorState = this.lockProvider.doorState;
-        // Ensure onTransitionReceived callback is re-injected on app launch, even prior to initialization https://github.com/cowbell/cordova-plugin-geofence/issues/128
-        geofence.onTransitionReceived = (resp) => {
-          this.setLockState(1);
-        };
         geofence.initialize()
         .then(() => {this.prepareGeofence();})
-        .catch((error: string) => {console.log(error);});      
+        .catch((error :string) => {console.log(error);});
       })
       .catch((error: string) => {console.log(error);});
-    });    
+    });
   }
 
   private prepareGeofence() {
+    geofence.upsertRemoteServerSettings(this.lockProvider.getRemoteServerURL(), this.lockProvider.getUnlockPostString(), this.lockProvider.getAccessToken());
     geofence.getWatched()
     .then((watchedGeofencesJSON: string) => {
       let watchedGeofences = JSON.parse(watchedGeofencesJSON);
       if (watchedGeofences && watchedGeofences.length > 0) {
         watchedGeofences = watchedGeofences.concat(watchedGeofences);
         return;
-      }      
+      }
       let newFence = {
         id: '1', // Pull a unique id from https://www.guidgenerator.com/
         latitude:       38.897957, // Replace with your own geocoordinates
         longitude:      -77.036560,
-        radius:         10,
+        radius:         200,
         transitionType: 1,
         notification: {
             id:             (new Date().getTime()),
@@ -52,10 +49,10 @@ export class HomePage {
         }
       }
       geofence.addOrUpdate([newFence])
-      .then(() => {console.log('New geofence added.');})
-      .catch((error :string) => {console.log(error);});      
+      .then(() => {alert('New geofence added.');})
+      .catch((error :string) => {console.log(error);});
     })
-    .catch((error :string) => {console.log(error);});    
+    .catch((error :string) => {console.log(error);});
   }
 
   refreshDoorState(event: any) {

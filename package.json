@@ -10,13 +10,12 @@
     "@angular/platform-browser-dynamic": "^4.4.4",
     "@ionic-native/core": "4.3.0",
     "SalesforceMobileSDK-CordovaPlugin": "git+https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin.git",
-    "com.salesforce": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin",
     "cordova-ios": "^4.4.0",
     "cordova-plugin-add-swift-support": "^1.6.0",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.0.1",
-    "cordova-plugin-geofence": "git+https://github.com/compelling/cordova-plugin-geofence.git",
-    "cordova-plugin-whitelist": "~1.2.2",
+    "cordova-plugin-geofence": "git+https://github.com/scottbcovert/cordova-plugin-geofence.git",
+    "cordova-plugin-whitelist": "^1.2.0",
     "cordova-plugin-wkwebview-engine": "git+https://github.com/apache/cordova-plugin-wkwebview-engine.git",
     "cordova-plugin-wkwebviewxhrfix": "git+https://github.com/TheMattRay/cordova-plugin-wkwebviewxhrfix.git",
     "es6-promise-plugin": "^4.1.1",
@@ -28,7 +27,8 @@
     "phonegap-plugin-push": "^1.5.1",
     "reflect-metadata": "0.1.8",
     "rxjs": "^5.4.3",
-    "zone.js": "^0.8.17"
+    "zone.js": "^0.8.17",
+    "com.salesforce": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.0.0",
@@ -55,9 +55,9 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "com.salesforce": {},
       "cordova-plugin-wkwebviewxhrfix": {},
-      "cordova-plugin-geofence": {}
+      "cordova-plugin-geofence": {},
+      "com.salesforce": {}
     },
     "platforms": [
       "ios"
